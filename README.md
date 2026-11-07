@@ -2,7 +2,7 @@
 
 A modern, responsive personal portfolio website built with **Next.js**. Showcasing my projects, skills, and experience — designed to be fast, accessible, and easy to customize.
 
-> 🌐 **Live Demo:** [your-domain.com](https://your-domain.com)
+> 🌐 **Live Demo:** ([https://portfolio-website-psi-gray-32.vercel.app/](https://portfolio-website-psi-gray-32.vercel.app/))
 
 ---
 
