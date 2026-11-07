@@ -3,7 +3,7 @@ export const personalInfo = {
   role: "MERN Stack & AI Agent Developer",
   tagline:
     "I build scalable web applications and intelligent AI agents that solve real problems.",
-  email: "zohaib@example.com",
+  email: "zohaibfas@gmail.com",
   location: "Pakistan",
   resume: "/resume.pdf",
   socials: {
