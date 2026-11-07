@@ -84,9 +84,11 @@ Create a `.env.local` file in the project root:
 
 ```env
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
-# Add any API keys for the contact form, e.g.:
-# RESEND_API_KEY=your_key_here
+WEB3FORMS_ACCESS_KEY=your_web3forms_access_key
 ```
+
+Get the access key from your Web3Forms dashboard. Keep it server-side; do not
+prefix it with `NEXT_PUBLIC_`.
 
 ### 4. Run the development server
 

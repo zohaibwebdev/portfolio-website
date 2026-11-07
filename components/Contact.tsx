@@ -5,30 +5,85 @@ import { useState } from "react";
 import { personalInfo } from "@/data/portfolio";
 
 export default function Contact() {
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "sent" | "error"
+  >("idle");
+  const [statusMessage, setStatusMessage] = useState("");
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus("sending");
-    const formData = Object.fromEntries(new FormData(e.currentTarget));
+ 
+async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault();
+
+  const form = e.currentTarget;
+
+  setStatus("sending");
+  setStatusMessage("");
+
+  const formData = new FormData(form);
+
+  // Add Web3Forms access key
+  formData.append(
+    "access_key",
+    process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY!
+  );
+
+  formData.append("subject", "New Portfolio Contact Message");
+
+  try {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
+    });
+
+    let errorMessage = "Unable to send your message. Please try again.";
+
+    let data: unknown;
 
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      if (res.ok) {
-        setStatus("sent");
-        (e.target as HTMLFormElement).reset();
-        setTimeout(() => setStatus("idle"), 4000);
-      } else {
-        setStatus("idle");
-      }
+      data = await res.json();
     } catch {
-      setStatus("idle");
+      throw new Error("The contact service returned an invalid response.");
     }
+
+    if (
+      typeof data === "object" &&
+      data !== null &&
+      "message" in data &&
+      typeof data.message === "string"
+    ) {
+      errorMessage = data.message;
+    }
+
+    if (
+      res.ok &&
+      typeof data === "object" &&
+      data !== null &&
+      "success" in data &&
+      data.success === true
+    ) {
+      setStatus("sent");
+      setStatusMessage("Message sent successfully.");
+
+      form.reset();
+
+      setTimeout(() => {
+        setStatus("idle");
+        setStatusMessage("");
+      }, 4000);
+    } else {
+      setStatus("error");
+      setStatusMessage(errorMessage);
+    }
+  } catch (error) {
+    setStatus("error");
+    setStatusMessage(
+      error instanceof Error
+        ? error.message
+        : "Unable to send your message. Please try again."
+    );
   }
+}
+
 
   return (
     <section id="contact" className="py-24 px-6 relative">
@@ -120,6 +175,14 @@ export default function Contact() {
                 ? "Message Sent ✓"
                 : "Send Message"}
             </button>
+            {statusMessage && (
+              <p
+                role="status"
+                className={status === "error" ? "text-red-400" : "text-green-400"}
+              >
+                {statusMessage}
+              </p>
+            )}
           </motion.form>
         </div>
       </div>
