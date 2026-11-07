@@ -70,7 +70,7 @@ export default function Navbar() {
         <motion.ul
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
-          className="md:hidden bg-surface border-t border-border px-6 py-4 space-y-4"
+          className="md:hidden bg-[#12121a] border-t border-border px-6 py-4 space-y-4"
         >
           {links.map((l) => (
             <li key={l.name}>
