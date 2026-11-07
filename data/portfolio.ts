@@ -8,8 +8,8 @@ export const personalInfo = {
   resume: "/resume.pdf",
   socials: {
     github: "https://github.com/zohaibwebdev",
-    linkedin: "https://linkedin.com/in/zohaib",
-    twitter: "https://twitter.com/zohaib",
+    linkedin: "https://www.linkedin.com/in/zohaibwebdev/",
+    twitter: "https://x.com/zohaibweb",
   },
 };
 
